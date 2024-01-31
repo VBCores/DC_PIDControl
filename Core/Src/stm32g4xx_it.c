@@ -58,7 +58,7 @@
 extern TIM_HandleTypeDef htim2;
 extern TIM_HandleTypeDef htim7;
 /* USER CODE BEGIN EV */
-
+uint32_t micros_k = 0;
 /* USER CODE END EV */
 
 /******************************************************************************/

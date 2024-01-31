@@ -25,7 +25,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include <utils.h>
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -45,14 +45,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-uint32_t micros_k = 0;
 
-volatile uint16_t ticks = 0;
-volatile float angle = 0;
-const uint16_t CIRCLE_TICKS = 2690;
-
-static volatile uint32_t pwm_1 = 0;
-static volatile uint32_t pwm_2 = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -101,38 +94,14 @@ int main(void)
   MX_TIM7_Init();
   MX_TIM8_Init();
   /* USER CODE BEGIN 2 */
-    HAL_TIM_Base_Start_IT(&htim2);
-    HAL_TIM_Base_Start_IT(&htim7);
-    HAL_TIM_Encoder_Start(&htim8, TIM_CHANNEL_ALL);
-
-    double Ipeak = 1;
-    double Rsense = 0.1;
-    double Vref = Ipeak * Rsense * 10;
-    uint32_t dac_val = dac_value(4095 * Vref / 3.3);
-    HAL_DAC_Start(&hdac1, DAC_CHANNEL_1);
-    HAL_StatusTypeDef status = HAL_DAC_SetValue(
-            &hdac1,
-            DAC_CHANNEL_1,
-            DAC_ALIGN_12B_R,
-            dac_val
-    );
-    if (status != HAL_OK) {
-        Error_Handler();
-    }
-
-    HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
-    HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
-    HAL_GPIO_WritePin(Sleep_GPIO_Port, Sleep_Pin, GPIO_PIN_SET);
+    main_cpp();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
-  {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-  }
   /* USER CODE END 3 */
 }
 
