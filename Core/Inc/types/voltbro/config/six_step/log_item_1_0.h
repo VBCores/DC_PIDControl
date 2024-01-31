@@ -82,7 +82,7 @@ static_assert(voltbro_config_six_step_log_item_1_0_EXTENT_BYTES_ >= voltbro_conf
 
 typedef struct
 {
-    /// uavcan.primitive.scalar.Integer8.1.0 is_on
+    /// uavcan.primitive.scalar.Integer8.1.0 _is_on
     uavcan_primitive_scalar_Integer8_1_0 is_on;
 
     /// uavcan.primitive.scalar.Integer8.1.0 is_stalling
@@ -154,7 +154,7 @@ static inline int8_t voltbro_config_six_step_log_item_1_0_serialize_(
 
 
 
-    {   // uavcan.primitive.scalar.Integer8.1.0 is_on
+    {   // uavcan.primitive.scalar.Integer8.1.0 _is_on
         size_t _size_bytes0_ = 1UL;  // Nested object (max) size, in bytes.
         int8_t _err0_ = uavcan_primitive_scalar_Integer8_1_0_serialize_(
             &obj->is_on, &buffer[offset_bits / 8U], &_size_bytes0_);
@@ -474,7 +474,7 @@ static inline int8_t voltbro_config_six_step_log_item_1_0_deserialize_(
 
 
 
-    // uavcan.primitive.scalar.Integer8.1.0 is_on
+    // uavcan.primitive.scalar.Integer8.1.0 _is_on
     {
         size_t _size_bytes11_ = (size_t)(capacity_bytes - nunavutChooseMin((offset_bits / 8U), capacity_bytes));
         const int8_t _err22_ = uavcan_primitive_scalar_Integer8_1_0_deserialize_(

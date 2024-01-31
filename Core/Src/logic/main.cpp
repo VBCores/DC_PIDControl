@@ -7,6 +7,10 @@
 #include <encoders/dc_incremental/dc_incremental.hpp>
 #include <motors/dc/dc.h>
 
+uint64_t micros_64() {
+    return micros_k * 1000 + __HAL_TIM_GetCounter(&htim7);
+}
+
 DCIncrementalEncoder encoder(&htim8, 48);
 DCMotorController motor(
     DCDriverConfig{
@@ -21,7 +25,7 @@ DCMotorController motor(
         .dac = &hdac1,
         .Rsense = 0.1,
         .common = {
-            .gear_ratio = 179
+            .gear_ratio = 189
         }
     },
     PIDConfig{
@@ -31,17 +35,25 @@ DCMotorController motor(
         .integral_error_lim = 3,
         .tolerance = 0.05
     },
-    1,
-    1
+    0.5,
+    0.5
 );
-volatile encoder_data value = 0;
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+void motor_control() {
+    static uint64_t now = 0;
+    float dt = (micros_64() - now) / 1000000.0f;
+    motor.regulate(encoder, dt);
+    now = micros_64();
+}
+
 [[noreturn]] void main_cpp(void) {
-    HAL_TIM_Base_Start_IT(&htim2);
-    HAL_TIM_Base_Start_IT(&htim7);
+    HAL_IMPORTANT(HAL_TIM_Base_Start_IT(&htim2))
+    HAL_IMPORTANT(HAL_TIM_Base_Start_IT(&htim7))
+    HAL_IMPORTANT(HAL_TIM_Base_Start_IT(&htim3))
 
     HAL_IMPORTANT(encoder.init())
 
@@ -50,8 +62,7 @@ extern "C" {
     HAL_IMPORTANT(motor.start())
 
     while (true) {
-        encoder.update_value();
-        value = encoder.get_value();
+
     }
 }
 #ifdef __cplusplus

@@ -93,6 +93,7 @@ int main(void)
   MX_DAC1_Init();
   MX_TIM7_Init();
   MX_TIM8_Init();
+  MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
     main_cpp();
   /* USER CODE END 2 */
