@@ -53,7 +53,7 @@ extern "C" {
 void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
-extern uint32_t micros_k;
+extern uint32_t millis_k;
 [[noreturn]] void main_cpp();
 uint64_t micros_64();
 void motor_control();
