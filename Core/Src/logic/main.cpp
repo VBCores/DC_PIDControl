@@ -1,15 +1,16 @@
 #include "main.h"
 #include "tim.h"
 #include "dac.h"
-#include "fdcan.h"
 
 #include <utils.hpp>
 #include <encoders/dc_incremental/dc_incremental.hpp>
-#include <motors/dc/dc.h>
+
+#include "logic.h"
 
 micros __attribute__((optimize("O0"))) micros_64() {
     return (micros)(millis_k * 1000u + __HAL_TIM_GetCounter(&htim7));
 }
+void error_handler() { Error_Handler(); }
 
 DCIncrementalEncoder encoder(&htim8, 48);
 DCMotorController motor(
@@ -40,6 +41,10 @@ DCMotorController motor(
     0.7f
 );
 
+DCMotorController& get_motor() {
+    return motor;
+}
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -48,12 +53,16 @@ extern "C" {
     HAL_IMPORTANT(HAL_TIM_Base_Start_IT(&htim2))
     HAL_IMPORTANT(HAL_TIM_Base_Start_IT(&htim7))
 
+    setup_cyphal();
+
     HAL_IMPORTANT(encoder.init())
 
     HAL_IMPORTANT(motor.init())
     HAL_IMPORTANT(motor.set_Ipeak(10))
     HAL_IMPORTANT(motor.start())
-    motor.set_target_speed(1.5);
+    motor.set_target_speed(0);
+
+    run_self_diagnostic();
 
     static micros last_motor_regulation_mk;
     while (true) {
@@ -67,6 +76,8 @@ extern "C" {
         })
 
         motor.update_angle(encoder);
+        reporting_loop(millis_k, motor);
+        get_interface()->loop();
     }
 }
 #ifdef __cplusplus
