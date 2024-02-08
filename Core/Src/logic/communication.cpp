@@ -4,8 +4,8 @@
 
 #include <cyphal/allocators/o1/o1_allocator.h>
 #include <cyphal/providers/G4CAN.h>
-#include <utils.hpp>
-#include <config/config.hpp>
+#include <voltbro/utils.hpp>
+#include <voltbro/config/config.hpp>
 
 #include "logic.h"
 

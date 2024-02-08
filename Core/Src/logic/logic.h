@@ -4,7 +4,7 @@
 
 #include "fdcan.h"
 
-#include <motors/dc/dc.h>
+#include <voltbro/motors/dc/dc.h>
 
 #include "cyphal/cyphal.h"
 #include "cyphal/subscriptions/subscription.h"
@@ -42,7 +42,8 @@ class RegisterListReader : public AbstractSubscription<RegisterListRequest> {
 public:
     RegisterListReader(InterfacePtr interface): AbstractSubscription<RegisterListRequest>(
             interface,
-            uavcan_register_List_1_0_FIXED_PORT_ID_
+            uavcan_register_List_1_0_FIXED_PORT_ID_,
+            CanardTransferKindRequest
     ) {};
     void handler(const RegisterListRequest::Type&, CanardRxTransfer*) override;
 };
@@ -51,7 +52,8 @@ class RegisterAccessReader : public AbstractSubscription<RegisterAccessRequest> 
 public:
     RegisterAccessReader(InterfacePtr interface): AbstractSubscription<RegisterAccessRequest>(
             interface,
-            uavcan_register_Access_1_0_FIXED_PORT_ID_
+            uavcan_register_Access_1_0_FIXED_PORT_ID_,
+            CanardTransferKindRequest
     ) {};
     void handler(const RegisterAccessRequest::Type&, CanardRxTransfer*) override;
 };
@@ -60,7 +62,8 @@ class NodeInfoReader : public AbstractSubscription<NodeInfoRequest> {
 public:
     NodeInfoReader(InterfacePtr interface): AbstractSubscription<NodeInfoRequest>(
             interface,
-            uavcan_node_GetInfo_1_0_FIXED_PORT_ID_
+            uavcan_node_GetInfo_1_0_FIXED_PORT_ID_,
+            CanardTransferKindRequest
     ) {};
     void handler(const NodeInfoRequest::Type&, CanardRxTransfer*) override;
 };
@@ -69,7 +72,8 @@ class EchoReader : public AbstractSubscription<EchoRequest> {
 public:
     EchoReader(InterfacePtr interface): AbstractSubscription<EchoRequest>(
             interface,
-            ECHO_SERVICE_ID
+            ECHO_SERVICE_ID,
+            CanardTransferKindRequest
     ) {};
     void handler(const EchoRequest::Type&, CanardRxTransfer*) override;
 };

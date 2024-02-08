@@ -2,8 +2,8 @@
 #include "tim.h"
 #include "dac.h"
 
-#include <utils.hpp>
-#include <encoders/dc_incremental/dc_incremental.hpp>
+#include <voltbro/utils.hpp>
+#include <voltbro/encoders/dc_incremental/dc_incremental.hpp>
 
 #include "logic.h"
 
@@ -70,7 +70,7 @@ extern "C" {
 
         // 100 HZ, micros counter
         EACH_N_MICROS(now, last_motor_regulation_mk, MICROS_0_01S, {
-            const float dt = diff / (float)MICROS_S;
+            const float dt = diff_last_motor_regulation_mk / (float)MICROS_S;
             motor.update_speed(dt);
             motor.regulate(dt);
         })
