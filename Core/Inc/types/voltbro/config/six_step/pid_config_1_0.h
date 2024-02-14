@@ -9,7 +9,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /home/pi/control/cyphal-types/voltbro/config/six_step/pid_config.1.0.dsdl
-// Generated at:  2023-11-21 11:50:49.399214 UTC
+// Generated at:  2023-12-11 11:36:13.666276 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     voltbro.config.six_step.pid_config
@@ -45,13 +45,15 @@ static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_TARGET_ENDIANNESS == 434322821,
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_OMIT_FLOAT_SERIALIZATION_SUPPORT == 0,
               "/home/pi/control/cyphal-types/voltbro/config/six_step/pid_config.1.0.dsdl is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not allowed." );
-static_assert( 0 == 0,
+static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_ENABLE_SERIALIZATION_ASSERTS == 0,
               "/home/pi/control/cyphal-types/voltbro/config/six_step/pid_config.1.0.dsdl is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not allowed." );
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_ENABLE_OVERRIDE_VARIABLE_ARRAY_CAPACITY == 0,
               "/home/pi/control/cyphal-types/voltbro/config/six_step/pid_config.1.0.dsdl is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not allowed." );
-
+static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_CAST_FORMAT == 2368206204,
+              "/home/pi/control/cyphal-types/voltbro/config/six_step/pid_config.1.0.dsdl is trying to use a serialization library that was compiled with "
+              "different language options. This is dangerous and therefore not allowed." );
 
 #ifdef __cplusplus
 extern "C" {

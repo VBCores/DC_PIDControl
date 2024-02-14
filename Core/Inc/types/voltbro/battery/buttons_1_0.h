@@ -8,11 +8,11 @@
 // are named with an underscore at the end, like foo_bar_().
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
-// Source file:   /home/pi/control/cyphal-types/voltbro/config/six_step/pid_report.1.0.dsdl
-// Generated at:  2023-12-11 11:36:13.686910 UTC
+// Source file:   /home/pi/control/cyphal-types/voltbro/battery/buttons.1.0.dsdl
+// Generated at:  2023-12-11 11:36:13.399504 UTC
 // Is deprecated: no
 // Fixed port-ID: None
-// Full name:     voltbro.config.six_step.pid_report
+// Full name:     voltbro.battery.buttons
 // Version:       1.0
 //
 // Platform
@@ -32,27 +32,27 @@
 //     enable_override_variable_array_capacity:  False
 //     cast_format:  (({type}) {value})
 
-#ifndef VOLTBRO_CONFIG_SIX_STEP_PID_REPORT_1_0_INCLUDED_
-#define VOLTBRO_CONFIG_SIX_STEP_PID_REPORT_1_0_INCLUDED_
+#ifndef VOLTBRO_BATTERY_BUTTONS_1_0_INCLUDED_
+#define VOLTBRO_BATTERY_BUTTONS_1_0_INCLUDED_
 
 #include <nunavut/support/serialization.h>
 #include <stdlib.h>
-#include <uavcan/primitive/scalar/Real64_1_0.h>
+#include <uavcan/primitive/scalar/Bit_1_0.h>
 
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_TARGET_ENDIANNESS == 434322821,
-              "/home/pi/control/cyphal-types/voltbro/config/six_step/pid_report.1.0.dsdl is trying to use a serialization library that was compiled with "
+              "/home/pi/control/cyphal-types/voltbro/battery/buttons.1.0.dsdl is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not allowed." );
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_OMIT_FLOAT_SERIALIZATION_SUPPORT == 0,
-              "/home/pi/control/cyphal-types/voltbro/config/six_step/pid_report.1.0.dsdl is trying to use a serialization library that was compiled with "
+              "/home/pi/control/cyphal-types/voltbro/battery/buttons.1.0.dsdl is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not allowed." );
-static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_ENABLE_SERIALIZATION_ASSERTS == 0,
-              "/home/pi/control/cyphal-types/voltbro/config/six_step/pid_report.1.0.dsdl is trying to use a serialization library that was compiled with "
+static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_ENABLE_SERIALIZATION_ASSERTS == 1,
+              "/home/pi/control/cyphal-types/voltbro/battery/buttons.1.0.dsdl is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not allowed." );
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_ENABLE_OVERRIDE_VARIABLE_ARRAY_CAPACITY == 0,
-              "/home/pi/control/cyphal-types/voltbro/config/six_step/pid_report.1.0.dsdl is trying to use a serialization library that was compiled with "
+              "/home/pi/control/cyphal-types/voltbro/battery/buttons.1.0.dsdl is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not allowed." );
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_CAST_FORMAT == 2368206204,
-              "/home/pi/control/cyphal-types/voltbro/config/six_step/pid_report.1.0.dsdl is trying to use a serialization library that was compiled with "
+              "/home/pi/control/cyphal-types/voltbro/battery/buttons.1.0.dsdl is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not allowed." );
 
 #ifdef __cplusplus
@@ -60,10 +60,10 @@ extern "C" {
 #endif
 
 /// This type does not have a fixed port-ID. See https://forum.opencyphal.org/t/choosing-message-and-service-ids/889
-#define voltbro_config_six_step_pid_report_1_0_HAS_FIXED_PORT_ID_ false
+#define voltbro_battery_buttons_1_0_HAS_FIXED_PORT_ID_ false
 
-#define voltbro_config_six_step_pid_report_1_0_FULL_NAME_             "voltbro.config.six_step.pid_report"
-#define voltbro_config_six_step_pid_report_1_0_FULL_NAME_AND_VERSION_ "voltbro.config.six_step.pid_report.1.0"
+#define voltbro_battery_buttons_1_0_FULL_NAME_             "voltbro.battery.buttons"
+#define voltbro_battery_buttons_1_0_FULL_NAME_AND_VERSION_ "voltbro.battery.buttons.1.0"
 
 /// Extent is the minimum amount of memory required to hold any serialized representation of any compatible
 /// version of the data type; or, on other words, it is the the maximum possible size of received objects of this type.
@@ -72,19 +72,19 @@ extern "C" {
 /// When allocating a serialization (TX) buffer, it is safe to use the size of the largest serialized representation
 /// instead of the extent because it provides a tighter bound of the object size; it is safe because the concrete type
 /// is always known during serialization (unlike deserialization). If not sure, use extent everywhere.
-#define voltbro_config_six_step_pid_report_1_0_EXTENT_BYTES_                    16UL
-#define voltbro_config_six_step_pid_report_1_0_SERIALIZATION_BUFFER_SIZE_BYTES_ 16UL
-static_assert(voltbro_config_six_step_pid_report_1_0_EXTENT_BYTES_ >= voltbro_config_six_step_pid_report_1_0_SERIALIZATION_BUFFER_SIZE_BYTES_,
+#define voltbro_battery_buttons_1_0_EXTENT_BYTES_                    2UL
+#define voltbro_battery_buttons_1_0_SERIALIZATION_BUFFER_SIZE_BYTES_ 2UL
+static_assert(voltbro_battery_buttons_1_0_EXTENT_BYTES_ >= voltbro_battery_buttons_1_0_SERIALIZATION_BUFFER_SIZE_BYTES_,
               "Internal constraint violation");
 
 typedef struct
 {
-    /// uavcan.primitive.scalar.Real64.1.0 integral_error
-    uavcan_primitive_scalar_Real64_1_0 integral_error;
+    /// uavcan.primitive.scalar.Bit.1.0 emergency_button
+    uavcan_primitive_scalar_Bit_1_0 emergency_button;
 
-    /// uavcan.primitive.scalar.Real64.1.0 signal
-    uavcan_primitive_scalar_Real64_1_0 signal;
-} voltbro_config_six_step_pid_report_1_0;
+    /// uavcan.primitive.scalar.Bit.1.0 user_button
+    uavcan_primitive_scalar_Bit_1_0 user_button;
+} voltbro_battery_buttons_1_0;
 
 /// Serialize an instance into the provided buffer.
 /// The lifetime of the resulting serialized representation is independent of the original instance.
@@ -94,7 +94,7 @@ typedef struct
 /// @param obj      The object to serialize.
 ///
 /// @param buffer   The destination buffer. There are no alignment requirements.
-///                 @see voltbro_config_six_step_pid_report_1_0_SERIALIZATION_BUFFER_SIZE_BYTES_
+///                 @see voltbro_battery_buttons_1_0_SERIALIZATION_BUFFER_SIZE_BYTES_
 ///
 /// @param inout_buffer_size_bytes  When calling, this is a pointer to the size of the buffer in bytes.
 ///                                 Upon return this value will be updated with the size of the constructed serialized
@@ -102,8 +102,8 @@ typedef struct
 ///                                 layer. In case of error this value is undefined.
 ///
 /// @returns Negative on error, zero on success.
-static inline int8_t voltbro_config_six_step_pid_report_1_0_serialize_(
-    const voltbro_config_six_step_pid_report_1_0* const obj, uint8_t* const buffer,  size_t* const inout_buffer_size_bytes)
+static inline int8_t voltbro_battery_buttons_1_0_serialize_(
+    const voltbro_battery_buttons_1_0* const obj, uint8_t* const buffer,  size_t* const inout_buffer_size_bytes)
 {
     if ((obj == NULL) || (buffer == NULL) || (inout_buffer_size_bytes == NULL))
     {
@@ -112,7 +112,7 @@ static inline int8_t voltbro_config_six_step_pid_report_1_0_serialize_(
 
 
     const size_t capacity_bytes = *inout_buffer_size_bytes;
-    if ((8U * (size_t) capacity_bytes) < 128UL)
+    if ((8U * (size_t) capacity_bytes) < 16UL)
     {
         return -NUNAVUT_ERROR_SERIALIZATION_BUFFER_TOO_SMALL;
     }
@@ -124,10 +124,10 @@ static inline int8_t voltbro_config_six_step_pid_report_1_0_serialize_(
 
 
 
-    {   // uavcan.primitive.scalar.Real64.1.0 integral_error
-        size_t _size_bytes0_ = 8UL;  // Nested object (max) size, in bytes.
-        int8_t _err0_ = uavcan_primitive_scalar_Real64_1_0_serialize_(
-            &obj->integral_error, &buffer[offset_bits / 8U], &_size_bytes0_);
+    {   // uavcan.primitive.scalar.Bit.1.0 emergency_button
+        size_t _size_bytes0_ = 1UL;  // Nested object (max) size, in bytes.
+        int8_t _err0_ = uavcan_primitive_scalar_Bit_1_0_serialize_(
+            &obj->emergency_button, &buffer[offset_bits / 8U], &_size_bytes0_);
         if (_err0_ < 0)
         {
             return _err0_;
@@ -148,10 +148,10 @@ static inline int8_t voltbro_config_six_step_pid_report_1_0_serialize_(
         offset_bits += _pad0_;
     }
 
-    {   // uavcan.primitive.scalar.Real64.1.0 signal
-        size_t _size_bytes1_ = 8UL;  // Nested object (max) size, in bytes.
-        int8_t _err2_ = uavcan_primitive_scalar_Real64_1_0_serialize_(
-            &obj->signal, &buffer[offset_bits / 8U], &_size_bytes1_);
+    {   // uavcan.primitive.scalar.Bit.1.0 user_button
+        size_t _size_bytes1_ = 1UL;  // Nested object (max) size, in bytes.
+        int8_t _err2_ = uavcan_primitive_scalar_Bit_1_0_serialize_(
+            &obj->user_button, &buffer[offset_bits / 8U], &_size_bytes1_);
         if (_err2_ < 0)
         {
             return _err2_;
@@ -200,8 +200,8 @@ static inline int8_t voltbro_config_six_step_pid_report_1_0_serialize_(
 ///                                 was activated. In case of error this value is undefined.
 ///
 /// @returns Negative on error, zero on success.
-static inline int8_t voltbro_config_six_step_pid_report_1_0_deserialize_(
-    voltbro_config_six_step_pid_report_1_0* const out_obj, const uint8_t* buffer, size_t* const inout_buffer_size_bytes)
+static inline int8_t voltbro_battery_buttons_1_0_deserialize_(
+    voltbro_battery_buttons_1_0* const out_obj, const uint8_t* buffer, size_t* const inout_buffer_size_bytes)
 {
     if ((out_obj == NULL) || (inout_buffer_size_bytes == NULL) || ((buffer == NULL) && (0 != *inout_buffer_size_bytes)))
     {
@@ -221,11 +221,11 @@ static inline int8_t voltbro_config_six_step_pid_report_1_0_deserialize_(
 
 
 
-    // uavcan.primitive.scalar.Real64.1.0 integral_error
+    // uavcan.primitive.scalar.Bit.1.0 emergency_button
     {
         size_t _size_bytes2_ = (size_t)(capacity_bytes - nunavutChooseMin((offset_bits / 8U), capacity_bytes));
-        const int8_t _err4_ = uavcan_primitive_scalar_Real64_1_0_deserialize_(
-            &out_obj->integral_error, &buffer[offset_bits / 8U], &_size_bytes2_);
+        const int8_t _err4_ = uavcan_primitive_scalar_Bit_1_0_deserialize_(
+            &out_obj->emergency_button, &buffer[offset_bits / 8U], &_size_bytes2_);
         if (_err4_ < 0)
         {
             return _err4_;
@@ -236,11 +236,11 @@ static inline int8_t voltbro_config_six_step_pid_report_1_0_deserialize_(
 
     offset_bits = (offset_bits + 7U) & ~(size_t) 7U;  // Align on 8 bits.
 
-    // uavcan.primitive.scalar.Real64.1.0 signal
+    // uavcan.primitive.scalar.Bit.1.0 user_button
     {
         size_t _size_bytes3_ = (size_t)(capacity_bytes - nunavutChooseMin((offset_bits / 8U), capacity_bytes));
-        const int8_t _err5_ = uavcan_primitive_scalar_Real64_1_0_deserialize_(
-            &out_obj->signal, &buffer[offset_bits / 8U], &_size_bytes3_);
+        const int8_t _err5_ = uavcan_primitive_scalar_Bit_1_0_deserialize_(
+            &out_obj->user_button, &buffer[offset_bits / 8U], &_size_bytes3_);
         if (_err5_ < 0)
         {
             return _err5_;
@@ -261,13 +261,13 @@ static inline int8_t voltbro_config_six_step_pid_report_1_0_deserialize_(
 /// This function intentionally leaves inactive elements uninitialized; for example, members of a variable-length
 /// array beyond its length are left uninitialized; aliased union memory that is not used by the first union field
 /// is left uninitialized, etc. If full zero-initialization is desired, just use memset(&obj, 0, sizeof(obj)).
-static inline void voltbro_config_six_step_pid_report_1_0_initialize_(voltbro_config_six_step_pid_report_1_0* const out_obj)
+static inline void voltbro_battery_buttons_1_0_initialize_(voltbro_battery_buttons_1_0* const out_obj)
 {
     if (out_obj != NULL)
     {
         size_t size_bytes = 0;
         const uint8_t buf = 0;
-        const int8_t err = voltbro_config_six_step_pid_report_1_0_deserialize_(out_obj, &buf, &size_bytes);
+        const int8_t err = voltbro_battery_buttons_1_0_deserialize_(out_obj, &buf, &size_bytes);
 
         (void) err;
     }
@@ -278,5 +278,4 @@ static inline void voltbro_config_six_step_pid_report_1_0_initialize_(voltbro_co
 #ifdef __cplusplus
 }
 #endif
-#endif // VOLTBRO_CONFIG_SIX_STEP_PID_REPORT_1_0_INCLUDED_
-
+#endif // VOLTBRO_BATTERY_BUTTONS_1_0_INCLUDED_

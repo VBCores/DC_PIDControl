@@ -9,7 +9,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /home/pi/control/cyphal-types/voltbro/hmi/led_service.1.0.dsdl
-// Generated at:  2023-11-21 11:50:49.518362 UTC
+// Generated at:  2023-12-11 11:36:13.365172 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     voltbro.hmi.led_service
@@ -48,7 +48,7 @@ static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_TARGET_ENDIANNESS == 434322821,
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_OMIT_FLOAT_SERIALIZATION_SUPPORT == 0,
               "/home/pi/control/cyphal-types/voltbro/hmi/led_service.1.0.dsdl is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not allowed." );
-static_assert( 0 == 0,
+static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_ENABLE_SERIALIZATION_ASSERTS == 1,
               "/home/pi/control/cyphal-types/voltbro/hmi/led_service.1.0.dsdl is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not allowed." );
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_ENABLE_OVERRIDE_VARIABLE_ARRAY_CAPACITY == 0,
@@ -78,8 +78,8 @@ extern "C" {
 /// When allocating a serialization (TX) buffer, it is safe to use the size of the largest serialized representation
 /// instead of the extent because it provides a tighter bound of the object size; it is safe because the concrete type
 /// is always known during serialization (unlike deserialization). If not sure, use extent everywhere.
-#define voltbro_hmi_led_service_Request_1_0_EXTENT_BYTES_                    11UL
-#define voltbro_hmi_led_service_Request_1_0_SERIALIZATION_BUFFER_SIZE_BYTES_ 11UL
+#define voltbro_hmi_led_service_Request_1_0_EXTENT_BYTES_                    12UL
+#define voltbro_hmi_led_service_Request_1_0_SERIALIZATION_BUFFER_SIZE_BYTES_ 12UL
 static_assert(voltbro_hmi_led_service_Request_1_0_EXTENT_BYTES_ >= voltbro_hmi_led_service_Request_1_0_SERIALIZATION_BUFFER_SIZE_BYTES_,
               "Internal constraint violation");
 
@@ -99,6 +99,9 @@ typedef struct
 
     /// uavcan.si.unit.frequency.Scalar.1.0 frequency
     uavcan_si_unit_frequency_Scalar_1_0 frequency;
+
+    /// uavcan.primitive.scalar.Integer8.1.0 interface
+    uavcan_primitive_scalar_Integer8_1_0 interface;
 } voltbro_hmi_led_service_Request_1_0;
 
 /// Serialize an instance into the provided buffer.
@@ -127,7 +130,7 @@ static inline int8_t voltbro_hmi_led_service_Request_1_0_serialize_(
 
 
     const size_t capacity_bytes = *inout_buffer_size_bytes;
-    if ((8U * (size_t) capacity_bytes) < 88UL)
+    if ((8U * (size_t) capacity_bytes) < 96UL)
     {
         return -NUNAVUT_ERROR_SERIALIZATION_BUFFER_TOO_SMALL;
     }
@@ -258,6 +261,30 @@ static inline int8_t voltbro_hmi_led_service_Request_1_0_serialize_(
         }
         offset_bits += _pad4_;
     }
+
+    {   // uavcan.primitive.scalar.Integer8.1.0 interface
+        size_t _size_bytes5_ = 1UL;  // Nested object (max) size, in bytes.
+        int8_t _err10_ = uavcan_primitive_scalar_Integer8_1_0_serialize_(
+            &obj->interface, &buffer[offset_bits / 8U], &_size_bytes5_);
+        if (_err10_ < 0)
+        {
+            return _err10_;
+        }
+        // It is assumed that we know the exact type of the serialized entity, hence we expect the size to match.
+        offset_bits += _size_bytes5_ * 8U;  // Advance by the size of the nested object.
+    }
+
+
+    if (offset_bits % 8U != 0U)  // Pad to 8 bits. TODO: Eliminate redundant padding checks.
+    {
+        const uint8_t _pad5_ = (uint8_t)(8U - offset_bits % 8U);
+        const int8_t _err11_ = nunavutSetUxx(&buffer[0], capacity_bytes, offset_bits, 0U, _pad5_);  // Optimize?
+        if (_err11_ < 0)
+        {
+            return _err11_;
+        }
+        offset_bits += _pad5_;
+    }
     // It is assumed that we know the exact type of the serialized entity, hence we expect the size to match.
 
 
@@ -310,27 +337,12 @@ static inline int8_t voltbro_hmi_led_service_Request_1_0_deserialize_(
 
     // uavcan.primitive.scalar.Integer8.1.0 r
     {
-        size_t _size_bytes5_ = (size_t)(capacity_bytes - nunavutChooseMin((offset_bits / 8U), capacity_bytes));
-        const int8_t _err10_ = uavcan_primitive_scalar_Integer8_1_0_deserialize_(
-            &out_obj->r, &buffer[offset_bits / 8U], &_size_bytes5_);
-        if (_err10_ < 0)
-        {
-            return _err10_;
-        }
-        offset_bits += _size_bytes5_ * 8U;  // Advance by the size of the nested serialized representation.
-    }
-
-
-    offset_bits = (offset_bits + 7U) & ~(size_t) 7U;  // Align on 8 bits.
-
-    // uavcan.primitive.scalar.Integer8.1.0 g
-    {
         size_t _size_bytes6_ = (size_t)(capacity_bytes - nunavutChooseMin((offset_bits / 8U), capacity_bytes));
-        const int8_t _err11_ = uavcan_primitive_scalar_Integer8_1_0_deserialize_(
-            &out_obj->g, &buffer[offset_bits / 8U], &_size_bytes6_);
-        if (_err11_ < 0)
+        const int8_t _err12_ = uavcan_primitive_scalar_Integer8_1_0_deserialize_(
+            &out_obj->r, &buffer[offset_bits / 8U], &_size_bytes6_);
+        if (_err12_ < 0)
         {
-            return _err11_;
+            return _err12_;
         }
         offset_bits += _size_bytes6_ * 8U;  // Advance by the size of the nested serialized representation.
     }
@@ -338,14 +350,14 @@ static inline int8_t voltbro_hmi_led_service_Request_1_0_deserialize_(
 
     offset_bits = (offset_bits + 7U) & ~(size_t) 7U;  // Align on 8 bits.
 
-    // uavcan.primitive.scalar.Integer8.1.0 b
+    // uavcan.primitive.scalar.Integer8.1.0 g
     {
         size_t _size_bytes7_ = (size_t)(capacity_bytes - nunavutChooseMin((offset_bits / 8U), capacity_bytes));
-        const int8_t _err12_ = uavcan_primitive_scalar_Integer8_1_0_deserialize_(
-            &out_obj->b, &buffer[offset_bits / 8U], &_size_bytes7_);
-        if (_err12_ < 0)
+        const int8_t _err13_ = uavcan_primitive_scalar_Integer8_1_0_deserialize_(
+            &out_obj->g, &buffer[offset_bits / 8U], &_size_bytes7_);
+        if (_err13_ < 0)
         {
-            return _err12_;
+            return _err13_;
         }
         offset_bits += _size_bytes7_ * 8U;  // Advance by the size of the nested serialized representation.
     }
@@ -353,14 +365,14 @@ static inline int8_t voltbro_hmi_led_service_Request_1_0_deserialize_(
 
     offset_bits = (offset_bits + 7U) & ~(size_t) 7U;  // Align on 8 bits.
 
-    // uavcan.si.unit.duration.Scalar.1.0 duration
+    // uavcan.primitive.scalar.Integer8.1.0 b
     {
         size_t _size_bytes8_ = (size_t)(capacity_bytes - nunavutChooseMin((offset_bits / 8U), capacity_bytes));
-        const int8_t _err13_ = uavcan_si_unit_duration_Scalar_1_0_deserialize_(
-            &out_obj->duration, &buffer[offset_bits / 8U], &_size_bytes8_);
-        if (_err13_ < 0)
+        const int8_t _err14_ = uavcan_primitive_scalar_Integer8_1_0_deserialize_(
+            &out_obj->b, &buffer[offset_bits / 8U], &_size_bytes8_);
+        if (_err14_ < 0)
         {
-            return _err13_;
+            return _err14_;
         }
         offset_bits += _size_bytes8_ * 8U;  // Advance by the size of the nested serialized representation.
     }
@@ -368,16 +380,46 @@ static inline int8_t voltbro_hmi_led_service_Request_1_0_deserialize_(
 
     offset_bits = (offset_bits + 7U) & ~(size_t) 7U;  // Align on 8 bits.
 
-    // uavcan.si.unit.frequency.Scalar.1.0 frequency
+    // uavcan.si.unit.duration.Scalar.1.0 duration
     {
         size_t _size_bytes9_ = (size_t)(capacity_bytes - nunavutChooseMin((offset_bits / 8U), capacity_bytes));
-        const int8_t _err14_ = uavcan_si_unit_frequency_Scalar_1_0_deserialize_(
-            &out_obj->frequency, &buffer[offset_bits / 8U], &_size_bytes9_);
-        if (_err14_ < 0)
+        const int8_t _err15_ = uavcan_si_unit_duration_Scalar_1_0_deserialize_(
+            &out_obj->duration, &buffer[offset_bits / 8U], &_size_bytes9_);
+        if (_err15_ < 0)
         {
-            return _err14_;
+            return _err15_;
         }
         offset_bits += _size_bytes9_ * 8U;  // Advance by the size of the nested serialized representation.
+    }
+
+
+    offset_bits = (offset_bits + 7U) & ~(size_t) 7U;  // Align on 8 bits.
+
+    // uavcan.si.unit.frequency.Scalar.1.0 frequency
+    {
+        size_t _size_bytes10_ = (size_t)(capacity_bytes - nunavutChooseMin((offset_bits / 8U), capacity_bytes));
+        const int8_t _err16_ = uavcan_si_unit_frequency_Scalar_1_0_deserialize_(
+            &out_obj->frequency, &buffer[offset_bits / 8U], &_size_bytes10_);
+        if (_err16_ < 0)
+        {
+            return _err16_;
+        }
+        offset_bits += _size_bytes10_ * 8U;  // Advance by the size of the nested serialized representation.
+    }
+
+
+    offset_bits = (offset_bits + 7U) & ~(size_t) 7U;  // Align on 8 bits.
+
+    // uavcan.primitive.scalar.Integer8.1.0 interface
+    {
+        size_t _size_bytes11_ = (size_t)(capacity_bytes - nunavutChooseMin((offset_bits / 8U), capacity_bytes));
+        const int8_t _err17_ = uavcan_primitive_scalar_Integer8_1_0_deserialize_(
+            &out_obj->interface, &buffer[offset_bits / 8U], &_size_bytes11_);
+        if (_err17_ < 0)
+        {
+            return _err17_;
+        }
+        offset_bits += _size_bytes11_ * 8U;  // Advance by the size of the nested serialized representation.
     }
 
 
@@ -467,27 +509,27 @@ static inline int8_t voltbro_hmi_led_service_Response_1_0_serialize_(
 
 
     {   // uavcan.primitive.scalar.Bit.1.0 accepted
-        size_t _size_bytes10_ = 1UL;  // Nested object (max) size, in bytes.
-        int8_t _err15_ = uavcan_primitive_scalar_Bit_1_0_serialize_(
-            &obj->accepted, &buffer[offset_bits / 8U], &_size_bytes10_);
-        if (_err15_ < 0)
+        size_t _size_bytes12_ = 1UL;  // Nested object (max) size, in bytes.
+        int8_t _err18_ = uavcan_primitive_scalar_Bit_1_0_serialize_(
+            &obj->accepted, &buffer[offset_bits / 8U], &_size_bytes12_);
+        if (_err18_ < 0)
         {
-            return _err15_;
+            return _err18_;
         }
         // It is assumed that we know the exact type of the serialized entity, hence we expect the size to match.
-        offset_bits += _size_bytes10_ * 8U;  // Advance by the size of the nested object.
+        offset_bits += _size_bytes12_ * 8U;  // Advance by the size of the nested object.
     }
 
 
     if (offset_bits % 8U != 0U)  // Pad to 8 bits. TODO: Eliminate redundant padding checks.
     {
-        const uint8_t _pad5_ = (uint8_t)(8U - offset_bits % 8U);
-        const int8_t _err16_ = nunavutSetUxx(&buffer[0], capacity_bytes, offset_bits, 0U, _pad5_);  // Optimize?
-        if (_err16_ < 0)
+        const uint8_t _pad6_ = (uint8_t)(8U - offset_bits % 8U);
+        const int8_t _err19_ = nunavutSetUxx(&buffer[0], capacity_bytes, offset_bits, 0U, _pad6_);  // Optimize?
+        if (_err19_ < 0)
         {
-            return _err16_;
+            return _err19_;
         }
-        offset_bits += _pad5_;
+        offset_bits += _pad6_;
     }
     // It is assumed that we know the exact type of the serialized entity, hence we expect the size to match.
 
@@ -541,14 +583,14 @@ static inline int8_t voltbro_hmi_led_service_Response_1_0_deserialize_(
 
     // uavcan.primitive.scalar.Bit.1.0 accepted
     {
-        size_t _size_bytes11_ = (size_t)(capacity_bytes - nunavutChooseMin((offset_bits / 8U), capacity_bytes));
-        const int8_t _err17_ = uavcan_primitive_scalar_Bit_1_0_deserialize_(
-            &out_obj->accepted, &buffer[offset_bits / 8U], &_size_bytes11_);
-        if (_err17_ < 0)
+        size_t _size_bytes13_ = (size_t)(capacity_bytes - nunavutChooseMin((offset_bits / 8U), capacity_bytes));
+        const int8_t _err20_ = uavcan_primitive_scalar_Bit_1_0_deserialize_(
+            &out_obj->accepted, &buffer[offset_bits / 8U], &_size_bytes13_);
+        if (_err20_ < 0)
         {
-            return _err17_;
+            return _err20_;
         }
-        offset_bits += _size_bytes11_ * 8U;  // Advance by the size of the nested serialized representation.
+        offset_bits += _size_bytes13_ * 8U;  // Advance by the size of the nested serialized representation.
     }
 
 

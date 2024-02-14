@@ -9,7 +9,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /home/pi/control/cyphal-types/voltbro/config/six_step/log_item.1.0.dsdl
-// Generated at:  2023-11-21 11:50:49.366007 UTC
+// Generated at:  2023-12-11 11:36:13.631943 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     voltbro.config.six_step.log_item
@@ -48,7 +48,7 @@ static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_TARGET_ENDIANNESS == 434322821,
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_OMIT_FLOAT_SERIALIZATION_SUPPORT == 0,
               "/home/pi/control/cyphal-types/voltbro/config/six_step/log_item.1.0.dsdl is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not allowed." );
-static_assert( 0 == 0,
+static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_ENABLE_SERIALIZATION_ASSERTS == 0,
               "/home/pi/control/cyphal-types/voltbro/config/six_step/log_item.1.0.dsdl is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not allowed." );
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_ENABLE_OVERRIDE_VARIABLE_ARRAY_CAPACITY == 0,
@@ -82,7 +82,7 @@ static_assert(voltbro_config_six_step_log_item_1_0_EXTENT_BYTES_ >= voltbro_conf
 
 typedef struct
 {
-    /// uavcan.primitive.scalar.Integer8.1.0 _is_on
+    /// uavcan.primitive.scalar.Integer8.1.0 is_on
     uavcan_primitive_scalar_Integer8_1_0 is_on;
 
     /// uavcan.primitive.scalar.Integer8.1.0 is_stalling
@@ -154,7 +154,7 @@ static inline int8_t voltbro_config_six_step_log_item_1_0_serialize_(
 
 
 
-    {   // uavcan.primitive.scalar.Integer8.1.0 _is_on
+    {   // uavcan.primitive.scalar.Integer8.1.0 is_on
         size_t _size_bytes0_ = 1UL;  // Nested object (max) size, in bytes.
         int8_t _err0_ = uavcan_primitive_scalar_Integer8_1_0_serialize_(
             &obj->is_on, &buffer[offset_bits / 8U], &_size_bytes0_);
@@ -474,7 +474,7 @@ static inline int8_t voltbro_config_six_step_log_item_1_0_deserialize_(
 
 
 
-    // uavcan.primitive.scalar.Integer8.1.0 _is_on
+    // uavcan.primitive.scalar.Integer8.1.0 is_on
     {
         size_t _size_bytes11_ = (size_t)(capacity_bytes - nunavutChooseMin((offset_bits / 8U), capacity_bytes));
         const int8_t _err22_ = uavcan_primitive_scalar_Integer8_1_0_deserialize_(
