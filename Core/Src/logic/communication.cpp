@@ -289,7 +289,7 @@ void reporting_loop(
     DCMotorController& motor
 ) {
     if (_is_cyphal_on) {
-        EACH_N(millis, report_time, 10, {
+        EACH_N(millis, report_time, 50, {
             send_angle(motor.get_angle());
             send_angular_vel(motor.get_speed());
         })
