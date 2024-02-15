@@ -289,7 +289,7 @@ void reporting_loop(
     DCMotorController& motor
 ) {
     if (_is_cyphal_on) {
-        EACH_N(millis, report_time, 50, {
+        EACH_N(millis, report_time, 100, {
             send_angle(motor.get_angle());
             send_angular_vel(motor.get_speed());
         })
@@ -330,7 +330,12 @@ void setup_cyphal() {
 
     HAL_IMPORTANT(HAL_FDCAN_ConfigFilter(&hfdcan1, &sFilterConfig))
 
-    HAL_IMPORTANT(HAL_FDCAN_ConfigTxDelayCompensation(&hfdcan1, 5, 0))
+    /* FROM STM EXAMPLES:
+     * "Configure and enable Tx Delay Compensation, required for BRS mode.
+     * TdcOffset default recommended value: DataTimeSeg1 * DataPrescaler
+     * TdcFilter default recommended value: 0"
+     */
+    HAL_IMPORTANT(HAL_FDCAN_ConfigTxDelayCompensation(&hfdcan1, 14, 0))
     HAL_IMPORTANT(HAL_FDCAN_EnableTxDelayCompensation(&hfdcan1))
 
     HAL_IMPORTANT(HAL_FDCAN_Start(&hfdcan1))
