@@ -20,7 +20,7 @@ DCMotorController motor(
         .IN1_channel = TIM_CHANNEL_1,
         .IN2_channel = TIM_CHANNEL_2,
         .timer = &htim1,
-        .min_pwm = 200,
+        .min_pwm = 100,
         .max_pwm = 999,
         .dac_channel_ = DAC_CHANNEL_1,
         .dac = &hdac1,

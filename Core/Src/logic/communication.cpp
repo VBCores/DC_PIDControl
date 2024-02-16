@@ -17,8 +17,8 @@ static bool _is_cyphal_on = false;
 static std::shared_ptr<CyphalInterface> cyphal_interface;
 
 UtilityConfig utilities(micros_64, error_handler);
-static FDCAN_FilterTypeDef sFilterConfig;
 
+ReservedObject<SpeedTargetReader> speed_target_reader;
 ReservedObject<EchoReader> echo_reader;
 ReservedObject<NodeInfoReader> node_info_reader;
 ReservedObject<RegisterAccessReader> register_access_reader;
@@ -264,6 +264,13 @@ void RegisterListReader::handler(
     );
 }
 
+void SpeedTargetReader::handler(
+    const uavcan_si_unit_angular_velocity_Scalar_1_0& speed_target,
+    CanardRxTransfer* transfer
+) {
+    get_motor().set_target_speed(speed_target.radian_per_second);
+}
+
 static uint32_t uptime = 0;
 void heartbeat() {
     static uint8_t hbeat_buffer[HBeat::buffer_size];
@@ -290,7 +297,6 @@ void reporting_loop(
 ) {
     if (_is_cyphal_on) {
         EACH_N(millis, report_time, 100, {
-            send_angle(motor.get_angle());
             send_angular_vel(motor.get_speed());
         })
         EACH_N(millis, heartbeat_time, 1000, {
@@ -304,6 +310,21 @@ bool is_cyphal_on() {
     return _is_cyphal_on;
 }
 
+static FDCAN_FilterTypeDef sFilterConfig;
+void apply_filter(const CanardFilter& filter) {
+    static uint32_t filter_index = 0;
+
+    sFilterConfig.IdType = FDCAN_EXTENDED_ID;
+    sFilterConfig.FilterIndex = filter_index;
+    sFilterConfig.FilterType = FDCAN_FILTER_MASK;
+    sFilterConfig.FilterConfig = FDCAN_FILTER_TO_RXFIFO0;
+    sFilterConfig.FilterID1 = filter.extended_can_id;
+    sFilterConfig.FilterID2 = filter.extended_mask;
+    HAL_IMPORTANT(HAL_FDCAN_ConfigFilter(&hfdcan1, &sFilterConfig))
+
+    filter_index += 1;
+}
+
 void setup_cyphal() {
     NODE_ID = config_pins.get_id();
 
@@ -314,28 +335,36 @@ void setup_cyphal() {
         utilities
     ));
 
+    speed_target_reader.create(cyphal_interface);
     echo_reader.create(cyphal_interface);
     node_info_reader.create(cyphal_interface);
     register_list_reader.create(cyphal_interface);
     register_access_reader.create(cyphal_interface);
 
-    CanardFilter cyphal_filter = canardMakeFilterForServices(NODE_ID);
+    HAL_FDCAN_ConfigGlobalFilter(
+        &hfdcan1,
+        FDCAN_REJECT,
+        FDCAN_REJECT,
+        FDCAN_REJECT_REMOTE,
+        FDCAN_REJECT_REMOTE
+    );
 
-    sFilterConfig.IdType = FDCAN_EXTENDED_ID;
-    sFilterConfig.FilterIndex = 0;
-    sFilterConfig.FilterType = FDCAN_FILTER_MASK;
-    sFilterConfig.FilterConfig = FDCAN_FILTER_TO_RXFIFO0;
-    sFilterConfig.FilterID1 = cyphal_filter.extended_can_id;
-    sFilterConfig.FilterID2 = cyphal_filter.extended_mask;
-
-    HAL_IMPORTANT(HAL_FDCAN_ConfigFilter(&hfdcan1, &sFilterConfig))
+    apply_filter(speed_target_reader->make_filter(NODE_ID));
+    apply_filter(register_access_reader->make_filter(NODE_ID));
+    apply_filter(register_list_reader->make_filter(NODE_ID));
+    apply_filter(echo_reader->make_filter(NODE_ID));
+    apply_filter(node_info_reader->make_filter(NODE_ID));
 
     /* FROM STM EXAMPLES:
      * "Configure and enable Tx Delay Compensation, required for BRS mode.
      * TdcOffset default recommended value: DataTimeSeg1 * DataPrescaler
      * TdcFilter default recommended value: 0"
      */
-    HAL_IMPORTANT(HAL_FDCAN_ConfigTxDelayCompensation(&hfdcan1, 14, 0))
+    HAL_IMPORTANT(HAL_FDCAN_ConfigTxDelayCompensation(
+        &hfdcan1,
+        hfdcan1.Init.DataTimeSeg1 * hfdcan1.Init.DataPrescaler,
+        0
+    ))
     HAL_IMPORTANT(HAL_FDCAN_EnableTxDelayCompensation(&hfdcan1))
 
     HAL_IMPORTANT(HAL_FDCAN_Start(&hfdcan1))

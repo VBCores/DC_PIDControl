@@ -35,8 +35,19 @@ TYPE_ALIAS(NodeInfoResponse, uavcan_node_GetInfo_Response_1_0)
 TYPE_ALIAS(EchoRequest, voltbro_echo_echo_service_Request_1_0)
 TYPE_ALIAS(EchoResponse, voltbro_echo_echo_service_Response_1_0)
 
+#define SPEED_TARGET_PORT 555U
 #define ECHO_SERVICE_ID 471U
-#define SELF_DIAG_PORT 176
+#define SELF_DIAG_PORT 176U
+
+class SpeedTargetReader : public AbstractSubscription<AngularVelocityScalar> {
+public:
+    SpeedTargetReader(InterfacePtr interface): AbstractSubscription<AngularVelocityScalar>(
+            interface,
+            SPEED_TARGET_PORT,
+            CanardTransferKindMessage
+    ) {};
+    void handler(const AngularVelocityScalar::Type&, CanardRxTransfer*) override;
+};
 
 class RegisterListReader : public AbstractSubscription<RegisterListRequest> {
 public:
