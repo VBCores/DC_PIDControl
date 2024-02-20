@@ -19,7 +19,8 @@ static std::shared_ptr<CyphalInterface> cyphal_interface;
 UtilityConfig utilities(micros_64, error_handler);
 
 ReservedObject<SpeedTargetReader> speed_target_reader;
-ReservedObject<EchoReader> echo_reader;
+ReservedObject<GetConfigReader> get_config_reader;
+ReservedObject<SetConfigReader> set_config_reader;
 ReservedObject<NodeInfoReader> node_info_reader;
 ReservedObject<RegisterAccessReader> register_access_reader;
 ReservedObject<RegisterListReader> register_list_reader;
@@ -80,17 +81,61 @@ void send_diagnostic(char* string) {
 #endif
 }
 
-void EchoReader::handler(
-    const voltbro_echo_echo_service_Request_1_0& request,
+void GetConfigReader::handler(
+    const GetConfigRequest::Type& config_request,
     CanardRxTransfer* transfer
 ) {
-    static uint8_t echo_buf[EchoResponse::buffer_size];
-    EchoResponse::Type echo_response = {.pong = request.ping};
-    get_interface()->send_response<EchoResponse>(
-        &echo_response,
-        echo_buf,
+    GetConfigResponse::Type response;
+    uint8_t buffer[GetConfigResponse::buffer_size];
+
+    DCMotorController& motor = get_motor();
+    PIDConfig current_config = motor.get_config();
+
+    response.report.integral_error.value = 0;
+    response.report.signal.value = 0;
+
+    response.config = {
+        .multiplier = {current_config.multiplier},
+        .p_gain = {current_config.p_gain},
+        .i_gain = {current_config.i_gain},
+        .d_gain = {current_config.d_gain},
+        .integral_error_lim = {current_config.integral_error_lim},
+        ._tolerance = {current_config.tolerance}
+    };
+
+    get_interface()->send_response<GetConfigResponse>(
+        &response,
+        buffer,
         transfer,
-        ECHO_SERVICE_ID
+        GET_CONFIG_SERVICE_ID
+    );
+}
+
+void SetConfigReader::handler(
+    const SetConfigRequest::Type& set_config_request,
+    CanardRxTransfer* transfer
+) {
+    SetConfigResponse::Type response;
+    uint8_t buffer[SetConfigResponse::buffer_size];
+
+    DCMotorController& motor = get_motor();
+    motor.update_pid_config({
+        .multiplier = set_config_request.new_config.multiplier.value,
+        .p_gain = set_config_request.new_config.p_gain.value,
+        .i_gain = set_config_request.new_config.i_gain.value,
+        .d_gain = set_config_request.new_config.d_gain.value,
+        .integral_error_lim = set_config_request.new_config.integral_error_lim.value,
+        .tolerance = set_config_request.new_config._tolerance.value,
+    });
+    persist_pid();
+
+    response.ok.value = true;
+
+    get_interface()->send_response<SetConfigResponse>(
+        &response,
+        buffer,
+        transfer,
+        GET_CONFIG_SERVICE_ID
     );
 }
 
@@ -336,7 +381,8 @@ void setup_cyphal() {
     ));
 
     speed_target_reader.create(cyphal_interface);
-    echo_reader.create(cyphal_interface);
+    get_config_reader.create(cyphal_interface);
+    set_config_reader.create(cyphal_interface);
     node_info_reader.create(cyphal_interface);
     register_list_reader.create(cyphal_interface);
     register_access_reader.create(cyphal_interface);
@@ -352,7 +398,8 @@ void setup_cyphal() {
     apply_filter(speed_target_reader->make_filter(NODE_ID));
     apply_filter(register_access_reader->make_filter(NODE_ID));
     apply_filter(register_list_reader->make_filter(NODE_ID));
-    apply_filter(echo_reader->make_filter(NODE_ID));
+    apply_filter(get_config_reader->make_filter(NODE_ID));
+    apply_filter(set_config_reader->make_filter(NODE_ID));
     apply_filter(node_info_reader->make_filter(NODE_ID));
 
     /* FROM STM EXAMPLES:

@@ -16,7 +16,8 @@
 #include <types/uavcan/si/unit/angular_velocity/Scalar_1_0.h>
 #include <types/uavcan/si/unit/angle/Scalar_1_0.h>
 
-#include <types/voltbro/echo/echo_service_1_0.h>
+#include <types/voltbro/config/dc/get_1_0.h>
+#include <types/voltbro/config/dc/set_1_0.h>
 
 TYPE_ALIAS(HBeat, uavcan_node_Heartbeat_1_0)
 TYPE_ALIAS(UString, uavcan_primitive_String_1_0)
@@ -25,19 +26,45 @@ TYPE_ALIAS(AngleScalar, uavcan_si_unit_angle_Scalar_1_0)
 
 TYPE_ALIAS(RegisterListRequest, uavcan_register_List_Request_1_0)
 TYPE_ALIAS(RegisterListResponse, uavcan_register_List_Response_1_0)
-
 TYPE_ALIAS(RegisterAccessRequest, uavcan_register_Access_Request_1_0)
 TYPE_ALIAS(RegisterAccessResponse, uavcan_register_Access_Response_1_0)
 
 TYPE_ALIAS(NodeInfoRequest, uavcan_node_GetInfo_Request_1_0)
 TYPE_ALIAS(NodeInfoResponse, uavcan_node_GetInfo_Response_1_0)
 
-TYPE_ALIAS(EchoRequest, voltbro_echo_echo_service_Request_1_0)
-TYPE_ALIAS(EchoResponse, voltbro_echo_echo_service_Response_1_0)
+TYPE_ALIAS(GetConfigRequest, voltbro_config_dc_get_Request_1_0)
+TYPE_ALIAS(GetConfigResponse, voltbro_config_dc_get_Response_1_0)
+TYPE_ALIAS(SetConfigRequest, voltbro_config_dc_set_Request_1_0)
+TYPE_ALIAS(SetConfigResponse, voltbro_config_dc_set_Response_1_0)
+TYPE_ALIAS(PIDConfigMessage, voltbro_config_dc_pid_config_1_0)
+TYPE_ALIAS(PIDReportMessage, voltbro_config_dc_pid_report_1_0)
 
 #define SPEED_TARGET_PORT 555U
-#define ECHO_SERVICE_ID 471U
 #define SELF_DIAG_PORT 176U
+// TODO: define next 2 using network_tools
+#define GET_CONFIG_SERVICE_ID 222U
+#define SET_CONFIG_SERVICE_ID 223U
+
+class GetConfigReader : public AbstractSubscription<GetConfigRequest> {
+public:
+    GetConfigReader(InterfacePtr interface): AbstractSubscription<GetConfigRequest>(
+            interface,
+            GET_CONFIG_SERVICE_ID,
+            CanardTransferKindRequest
+    ) {};
+    void handler(const GetConfigRequest::Type&, CanardRxTransfer*) override;
+};
+
+class SetConfigReader : public AbstractSubscription<SetConfigRequest> {
+public:
+    SetConfigReader(InterfacePtr interface): AbstractSubscription<SetConfigRequest>(
+            interface,
+            SET_CONFIG_SERVICE_ID,
+            CanardTransferKindRequest
+    ) {};
+    void handler(const SetConfigRequest::Type&, CanardRxTransfer*) override;
+};
+
 
 class SpeedTargetReader : public AbstractSubscription<AngularVelocityScalar> {
 public:
@@ -79,16 +106,6 @@ public:
     void handler(const NodeInfoRequest::Type&, CanardRxTransfer*) override;
 };
 
-class EchoReader : public AbstractSubscription<EchoRequest> {
-public:
-    EchoReader(InterfacePtr interface): AbstractSubscription<EchoRequest>(
-            interface,
-            ECHO_SERVICE_ID,
-            CanardTransferKindRequest
-    ) {};
-    void handler(const EchoRequest::Type&, CanardRxTransfer*) override;
-};
-
 // Utils
 uint64_t micros_64();
 void error_handler();
@@ -106,5 +123,9 @@ void setup_cyphal();
 
 // Motor
 DCMotorController& get_motor();
+
+// EEPROM
+void persist_pid();
+void reload_pid();
 
 #define VCS_REVISION_ID 1

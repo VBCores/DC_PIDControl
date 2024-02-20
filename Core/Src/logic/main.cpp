@@ -1,9 +1,11 @@
 #include "main.h"
 #include "tim.h"
 #include "dac.h"
+#include "i2c.h"
 
 #include <voltbro/utils.hpp>
 #include <voltbro/encoders/dc_incremental/dc_incremental.hpp>
+#include <voltbro/eeprom/eeprom.hpp>
 
 #include "logic.h"
 
@@ -11,6 +13,8 @@ micros __attribute__((optimize("O0"))) micros_64() {
     return (micros)(millis_k * 1000u + __HAL_TIM_GetCounter(&htim7));
 }
 void error_handler() { Error_Handler(); }
+
+EEPROM eeprom(&hi2c4);
 
 DCIncrementalEncoder encoder(&htim8, 48);
 DCMotorController motor(
@@ -45,11 +49,36 @@ DCMotorController& get_motor() {
     return motor;
 }
 
+static constexpr uint16_t PID_EEPROM_ADDRESS = 0;
+void persist_pid() {
+    PIDConfig current_config = motor.get_config();
+    eeprom.write<PIDConfig>(&current_config, PID_EEPROM_ADDRESS);
+}
+
+void reload_pid() {
+    PIDConfig new_config;
+    eeprom.read<PIDConfig>(&new_config, PID_EEPROM_ADDRESS);
+    // check first value
+    float first_val = new_config.multiplier;
+    if (is_close(first_val, 0) ||
+        isnan(first_val) ||
+        (first_val < 0)
+    ) {
+        return;
+    }
+    motor.update_pid_config(std::move(new_config));
+}
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
 [[noreturn]] void main_cpp(void) {
+    while (!eeprom.is_connected()) {
+        eeprom.delay();
+    }
+    eeprom.delay();
+    reload_pid();
+
     HAL_IMPORTANT(HAL_TIM_Base_Start_IT(&htim2))
     HAL_IMPORTANT(HAL_TIM_Base_Start_IT(&htim7))
 

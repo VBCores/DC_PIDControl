@@ -20,6 +20,7 @@
 #include "main.h"
 #include "dac.h"
 #include "fdcan.h"
+#include "i2c.h"
 #include "tim.h"
 #include "gpio.h"
 
@@ -93,6 +94,7 @@ int main(void)
   MX_TIM7_Init();
   MX_TIM8_Init();
   MX_DAC1_Init();
+  MX_I2C4_Init();
   /* USER CODE BEGIN 2 */
     main_cpp();
   /* USER CODE END 2 */
