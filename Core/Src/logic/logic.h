@@ -48,9 +48,9 @@ TYPE_ALIAS(PIDReportMessage, voltbro_config_dc_pid_report_1_0)
 class GetConfigReader : public AbstractSubscription<GetConfigRequest> {
 public:
     GetConfigReader(InterfacePtr interface): AbstractSubscription<GetConfigRequest>(
-            interface,
-            GET_CONFIG_SERVICE_ID,
-            CanardTransferKindRequest
+        interface,
+        GET_CONFIG_SERVICE_ID,
+        CanardTransferKindRequest
     ) {};
     void handler(const GetConfigRequest::Type&, CanardRxTransfer*) override;
 };
@@ -58,9 +58,9 @@ public:
 class SetConfigReader : public AbstractSubscription<SetConfigRequest> {
 public:
     SetConfigReader(InterfacePtr interface): AbstractSubscription<SetConfigRequest>(
-            interface,
-            SET_CONFIG_SERVICE_ID,
-            CanardTransferKindRequest
+        interface,
+        SET_CONFIG_SERVICE_ID,
+        CanardTransferKindRequest
     ) {};
     void handler(const SetConfigRequest::Type&, CanardRxTransfer*) override;
 };
@@ -69,9 +69,9 @@ public:
 class SpeedTargetReader : public AbstractSubscription<AngularVelocityScalar> {
 public:
     SpeedTargetReader(InterfacePtr interface): AbstractSubscription<AngularVelocityScalar>(
-            interface,
-            SPEED_TARGET_PORT,
-            CanardTransferKindMessage
+        interface,
+        SPEED_TARGET_PORT,
+        CanardTransferKindMessage
     ) {};
     void handler(const AngularVelocityScalar::Type&, CanardRxTransfer*) override;
 };
@@ -79,9 +79,9 @@ public:
 class RegisterListReader : public AbstractSubscription<RegisterListRequest> {
 public:
     RegisterListReader(InterfacePtr interface): AbstractSubscription<RegisterListRequest>(
-            interface,
-            uavcan_register_List_1_0_FIXED_PORT_ID_,
-            CanardTransferKindRequest
+        interface,
+        uavcan_register_List_1_0_FIXED_PORT_ID_,
+        CanardTransferKindRequest
     ) {};
     void handler(const RegisterListRequest::Type&, CanardRxTransfer*) override;
 };
@@ -89,9 +89,9 @@ public:
 class RegisterAccessReader : public AbstractSubscription<RegisterAccessRequest> {
 public:
     RegisterAccessReader(InterfacePtr interface): AbstractSubscription<RegisterAccessRequest>(
-            interface,
-            uavcan_register_Access_1_0_FIXED_PORT_ID_,
-            CanardTransferKindRequest
+        interface,
+        uavcan_register_Access_1_0_FIXED_PORT_ID_,
+        CanardTransferKindRequest
     ) {};
     void handler(const RegisterAccessRequest::Type&, CanardRxTransfer*) override;
 };
@@ -99,9 +99,9 @@ public:
 class NodeInfoReader : public AbstractSubscription<NodeInfoRequest> {
 public:
     NodeInfoReader(InterfacePtr interface): AbstractSubscription<NodeInfoRequest>(
-            interface,
-            uavcan_node_GetInfo_1_0_FIXED_PORT_ID_,
-            CanardTransferKindRequest
+        interface,
+        uavcan_node_GetInfo_1_0_FIXED_PORT_ID_,
+        CanardTransferKindRequest
     ) {};
     void handler(const NodeInfoRequest::Type&, CanardRxTransfer*) override;
 };
