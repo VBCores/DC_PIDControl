@@ -1,4 +1,5 @@
 #include <cstdio>
+#include <cinttypes>
 
 #include "stm32g4xx_ll_utils.h"
 
@@ -69,7 +70,8 @@ void send_diagnostic(char* string) {
 
     UString::Type sd = {};
 
-    sprintf((char*)sd.value.elements, "NODE ID: %d; MESSAGE: <%s>", get_node_id(), string);
+    // ROS-style logs
+    sprintf((char*)sd.value.elements, "%llu [diagnostic]: <%s>", micros_64(), string);
     sd.value.count = strlen((char*)sd.value.elements);
 
     get_interface()->send_msg<UString>(
@@ -462,7 +464,7 @@ std::shared_ptr<CyphalInterface> get_interface() {
 #ifdef DEBUG
     /* Disallow calls from interrupts to avoid memory and/or queue corruption
      * If you need to call cyphal from interrupts, either:
-     *     a) Wrap all calls to cyphal_interface into CRITICAL_SECTION(...) (this way has it's own problems)
+     *     a) Wrap all calls to cyphal_interface into CRITICAL_SECTION(...) (this way has its own problems)
      *     b) Implement something like a mutex (ex. https://gist.github.com/hdznrrd/4032002)
      */
     if (isInterrupt()) {
